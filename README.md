@@ -1,16 +1,58 @@
-# visualizer
+# Sorting Algorithm Visualizer
 
-A new Flutter project.
+Sorting Algorithm Visualizer is a **Flutter-based mobile application** that provides step-by-step animations of popular sorting algorithms. It is designed to help users understand how sorting works through dynamic visual representations.
 
-## Getting Started
+## Features 🚀
+- **Sorting Algorithms:** Includes Selection Sort, Merge Sort (soon), and more.
+- **Custom Animation Speeds:** Choose between Slow, Normal, and Fast modes.
+- **Pause & Resume:** Pause the sorting process and resume at any time.
+- **Reset Functionality:** Restart the sorting with the same dataset.
+- **Time Tracking:** Displays elapsed time for sorting operations.
+- **Interactive UI:** Modern and intuitive user interface.
 
-This project is a starting point for a Flutter application.
+## Technologies Used 🛠️
+- **Flutter** (Dart)
+- **GetX** for state management
+- **FontAwesomeFlutter** for icons
+- **Custom UI Widgets** for visualization
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshots / Overview📸
+![Sorting Visualizer Demo](https://github.com/adityaKumar0909/Sorting-Visualizer/blob/local/assets/videos/appOverview.gif)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Installation 📥
+1. Clone the repository:
+   ```bash
+   https://github.com/adityaKumar0909/Sorting-Visualizer.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd Sorting-Visualizer
+   ```
+3. Install dependencies:
+   ```bash
+   flutter pub get
+   ```
+4. Run the app:
+   ```bash
+   flutter run
+   ```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Usage 🎯
+1. Select a sorting algorithm.
+2. Adjust the animation speed if needed.
+3. Click **Sort** to start the visualization.
+4. Use **Pause/Resume** and **Reset** as required.
+
+## Roadmap 🔮
+- [ ] Dark & Light Mode Support
+- [ ] Custom Array Input Feature
+
+## Contributing 🤝
+Contributions are welcome! Feel free to open issues and submit pull requests.
+
+## License 📜
+This project is licensed under the **MIT License**.
+
+## Contact 📧
+For any questions or suggestions, reach out at kadi93030@gmail or visit https://github.com/adityaKumar0909.
+
