@@ -30,7 +30,7 @@ class PageViewHorizontal extends StatelessWidget {
                     width: screenWidth * 0.70,
                     height: screenHeight * 0.2,
                     decoration: BoxDecoration(
-                      color: Color(0xff353535),
+                      color: Colors.black,
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: Center(

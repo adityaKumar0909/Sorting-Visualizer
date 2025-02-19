@@ -87,9 +87,9 @@ class _SelectionSortState extends State<SelectionSortScreen> {
       setState(() {
         dropDownValue = selectedValue;
         switch(dropDownValue){
-          case "Normal":{animationSpeed = 400;break;}
+          case "Normal":{animationSpeed = 200;break;}
           case "Slow":{animationSpeed = 600;break;}
-          case "Fast":{animationSpeed = 200;break;}}
+          case "Fast":{animationSpeed = 100;break;}}
       });
     }
 
@@ -191,7 +191,7 @@ class _SelectionSortState extends State<SelectionSortScreen> {
             barColors[j] = Colors.white;
           });
           // Delay between each step for visualization
-          await Future.delayed(Duration(milliseconds: 100));
+          await Future.delayed(Duration(milliseconds: animationSpeed));
         }
         updateState(() {
           barColors[i] = Colors.white;
@@ -218,6 +218,64 @@ class _SelectionSortState extends State<SelectionSortScreen> {
     }
 
     // ==================/////////////==================================
+
+    void _showBottomSheet() {
+
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        transitionAnimationController: AnimationController(
+          vsync: Navigator.of(context),
+          duration: Duration(milliseconds: 200),
+        ),
+        builder: (context) {
+          return DraggableScrollableSheet(
+            initialChildSize: 0.6,
+            minChildSize: 0.2,
+            maxChildSize: 0.6,
+            builder: (context, scrollController) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: Color(0xff353535),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+
+                      Align(
+                        alignment: Alignment.center,
+                        child: IconButton(
+                          icon: Icon(Icons.keyboard_arrow_down, color: Colors.white,size: 50,),
+                          onPressed: () => Navigator.pop(context), // Close on tap
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Center(child: MText(input: "How It's Done ?", fontSize: 0.05, color: Colors.white)),
+
+                            SizedBox(height: screenHeight * 0.03),
+
+                            PageViewHorizontal(Item: Steps),
+
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      );
+    }
+
+    //--------------------------------------------------------------------------
 
 
 
@@ -295,36 +353,6 @@ class _SelectionSortState extends State<SelectionSortScreen> {
                         icon: isPause? Icon(Icons.play_arrow,size: 30): Icon(Icons.pause,size: 30,))]
               ),
 
-              SizedBox(height: screenHeight * 0.05),
-
-              Container(
-                width: screenWidth*0.85,
-                height: screenHeight*0.07,
-                decoration:BoxDecoration(
-                  color: Color(0xffff4d6d),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: screenWidth*0.025),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      MText(input: "Time elapsed : ", fontSize: 0.025, color: Colors.white),
-
-                      MText(input: "${time.toString()} ms", fontSize: 0.023, color: Colors.white)
-                    ],
-                  ),
-                ),
-              ),
-
-
-              SizedBox(height: screenHeight * 0.073),
-
-              MText(input: "How It's Done ?", fontSize: 0.05, color: Colors.white),
-
-              SizedBox(height: screenHeight * 0.03),
-
-              PageViewHorizontal(Item: Steps),
 
               SizedBox(height: screenHeight * 0.03),
 
@@ -334,6 +362,11 @@ class _SelectionSortState extends State<SelectionSortScreen> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
                     child: MText(input: "Time Complexity : ", fontSize: 0.025, color: Colors.white),
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
+                    child: IconButton(onPressed: _showBottomSheet, icon: Icon(Icons.info),color: Colors.white,iconSize: 30,),
                   ),
                 ],
               ),

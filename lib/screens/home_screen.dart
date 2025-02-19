@@ -13,6 +13,7 @@ import 'package:visualizer/core/sorting_algorithm.dart';
 import 'package:visualizer/widgets/text.dart';
 
 import 'insertionSort.dart';
+import 'mergeSort.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -106,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> startBubbleSort() async {
-    Get.to(BubbleSortScreen(),transition:Transition.circularReveal,duration: Duration(milliseconds: 1000) ,arguments: {
+    Get.to(()=>BubbleSortScreen(),transition:Transition.circularReveal,duration: Duration(milliseconds: 1000) ,arguments: {
       "numbers" : bubbleArray,
       "barColors": barColorsBubble,
     });
@@ -114,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> startSelectionSort() async {
 
-    Get.to(SelectionSortScreen(),transition:Transition.circularReveal,duration: Duration(milliseconds: 1000) ,arguments: {
+    Get.to(()=>SelectionSortScreen(),transition:Transition.circularReveal,duration: Duration(milliseconds: 300) ,arguments: {
       "numbers" : bubbleArray,
       "barColors": barColorsBubble,
     });
@@ -122,7 +123,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> startInsertionSort() async {
 
-    Get.to(InsertionSortScreen(),transition:Transition.circularReveal,duration: Duration(milliseconds: 1000) ,arguments: {
+    Get.to(()=>InsertionSortScreen(),transition:Transition.circularReveal,duration: Duration(milliseconds: 1000) ,arguments: {
+      "numbers" : bubbleArray,
+      "barColors": barColorsBubble,
+    });
+  }
+
+  Future<void> startMergeSort() async {
+
+    Get.to(MergeSortScreen(),transition:Transition.circularReveal,duration: Duration(milliseconds: 1000) ,arguments: {
       "numbers" : bubbleArray,
       "barColors": barColorsBubble,
     });
@@ -176,10 +185,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   MElevatedButton("Quick", Colors.black, Colors.white,
                       startBubbleSort, 0.026),
-                  MElevatedButton("Counting", Colors.black, Colors.white,
-                      startBubbleSort, 0.025),
+
                   MElevatedButton("Merge", Colors.black, Colors.white,
-                      startBubbleSort, 0.026),
+                      startMergeSort, 0.026),
                 ],
               ),
               SizedBox(
@@ -209,5 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+
 
 

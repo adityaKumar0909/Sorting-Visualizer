@@ -1,42 +1,58 @@
 import 'dart:async';
 import 'dart:core';
+import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:visualizer/widgets/PageView-Horizontal.dart';
+import 'package:visualizer/core/sorting_algorithm.dart';
 import 'package:visualizer/widgets/dropDownMenu.dart';
 import 'package:visualizer/widgets/text.dart';
 import '../core/bar_visualization.dart';
+import '../widgets/PageView-Horizontal.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class InsertionSortScreen extends StatefulWidget {
-  const InsertionSortScreen({super.key});
+
+class MergeSortScreen extends StatefulWidget {
+  const MergeSortScreen({super.key});
 
   @override
-  State<InsertionSortScreen> createState() => _InsertionSortState();
+  State<MergeSortScreen> createState() => _MergeSortState();
 }
 
-class _InsertionSortState extends State<InsertionSortScreen> {
+class _MergeSortState extends State<MergeSortScreen> {
+
+  //====================Variables========================
+
   bool isPause = false;
   late List<int> numbers;
   late List<Color> barColors;
   late Completer<void> completer;
   late int animationSpeed = 400;
   String dropDownValue = "Normal";
+  int time=0;
+  Timer? timer = null ;
   bool isResetClicked = false;
-  int time = 0;
-  Timer? timer;
   bool isTimerPaused = true;
+  bool isSorted=false;
+
+
+  late List<int> numbersWorking = List<int>.from(numbers);
+  late List<Color> barColorsWorking = List<Color>.from(barColors);
+
 
   List<String> Steps = [
-  "Start with the second element (index 1) as the key.",
-  "Compare the key with the previous element.",
-  "If the key is smaller, shift the previous element one position to the right.",
-  "Continue shifting elements until the correct position for the key is found.",
-  "Insert the key at its correct position.",
-  "Move to the next element and repeat the process.",
-  "Continue until the entire array is sorted."
-
+    "Divide the array into two equal halves.",
+    "Recursively repeat the process for each half until each sub-array has only one element.",
+    "Start merging the sub-arrays by comparing elements from both halves.",
+    "Place the smaller element into the sorted array first.",
+    "Continue merging elements while maintaining the correct order.",
+    "Merge the remaining elements from both halves if any are left.",
+    "Repeat this merging process until the entire array is reconstructed in sorted order.",
+    "The final merged array is now sorted."
   ];
+
+
+  //===================Variables End========================
 
   @override
   void initState() {
@@ -44,175 +60,192 @@ class _InsertionSortState extends State<InsertionSortScreen> {
     final Map<String, dynamic>? data = Get.arguments;
     numbers = (data?["numbers"] as List<int>?) ?? [];
     barColors = (data?["barColors"] as List<Color>?) ?? [];
+
+    
   }
 
-  late List<int> numbersWorking = List<int>.from(numbers);
-  late List<Color> barColorsWorking = List<Color>.from(barColors);
+
+
+  
+
 
   @override
   Widget build(BuildContext context) {
+
+
+    // ================ Variables ==========================
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
-    void hello() {}
-
-
-
     Color firstColor = Color(0xFFaffc41);
     Color secondColor = Color(0xFFaffc41);
 
+    // =============  //////////////  =======================
 
-
-
-
-    void dropDownCallback(String selectedValue) {
-      setState(() {
-        dropDownValue = selectedValue;
-        switch(dropDownValue){
-          case "Normal":{animationSpeed = 200;break;}
-          case "Slow":{animationSpeed = 600;break;}
-          case "Fast":{animationSpeed = 100;break;}}
-      });
-    }
-
-    void startTimer(){
-      timer = Timer.periodic(Duration(milliseconds: 1), (val){
-        setState(() {
-          time++;
-          isTimerPaused = false;
-        });
-      });
-
-
-    }
-
-    void pauseTimer(){
-      if( timer!=null){
-        timer!.cancel();
-      }
-
-      setState(() {
-        isTimerPaused = true;
-      });
-    }
-
-    void resumeTimer(){
-      if(isTimerPaused && time!=null){
-        startTimer();
-      }
-
-      setState(() {
-        isTimerPaused = false;
-      });
-    }
-
-    void resetTimer(){
-      if(time!=null)
-      timer!.cancel();
-
-      setState(() {
-        time = 0;
-        isTimerPaused = true;
-      });
-    }
-
+    // ============= Utilities ===========================
     void repeatAnimations() {
 
-      resetTimer();
-
       setState(() {
-
+        isSorted = false;
         isResetClicked = true;
         isPause = false;
         for (int i = 0; i < numbersWorking.length; i++) {
           numbersWorking[i] = numbers[i];
           barColorsWorking[i] = Colors.white;
         }
+
+      });
+    };
+
+    void dropDownCallback(String selectedValue) {
+      setState(() {
+        dropDownValue = selectedValue;
+        switch(dropDownValue){
+          case "Normal":{animationSpeed = 400;break;}
+          case "Slow":{animationSpeed = 600;break;}
+          case "Fast":{animationSpeed = 300;break;}}
       });
     }
 
+    //=================///////////========================
+
+    // ============ Pause & Timer functionality ============
+
+
+
     void pause() {
+
       setState(() {
+
         isPause = !isPause;
         if (!isPause) {
           completer.complete();
-          resumeTimer();
         }
       });
     }
-    Future<void> insertionSort()async{
-      for(int i=1;i<numbersWorking.length;i++){
 
-        if(isResetClicked) break;
+    // ============ //////////////////////// ==================
 
-        int key = numbersWorking[i];
-        int j = i-1;
+      Future<void> merge(List<int> numbers,List<Color>barColors, int left,int mid, int right) async{
+        int array1 = mid - left + 1;
+        int array2 = right-mid;
 
-        if(isResetClicked) break;
+        if(isResetClicked) return;
 
-        setState(() {
-          barColorsWorking[i] = firstColor;
-          barColorsWorking[j] = secondColor;
-        });
-
-        while(j>=0 && numbersWorking[j]>key){
+        List<int> LeftArray = List<int>.filled(array1,0);
+        List<int> RightArray = List<int>.filled(array2,0);
 
 
-          await Future.delayed(Duration(milliseconds: animationSpeed));
 
-          if(isResetClicked) break;
+        for(int i=0;i<array1;i++) {
+          LeftArray[i] = numbers[left + i];
+        }
+        for(int i=0;i<array2;i++) {
+          RightArray[i] = numbers[mid + 1 + i];
+        }
+
+        int i=0,j=0,k=left;
+
+        while(i<array1 && j<array2){
 
           setState(() {
-            barColorsWorking[j+1] = Colors.white;
-            barColorsWorking[j]=firstColor;
-            if(j-1>=0) barColorsWorking[j-1] = Colors.white;
+            barColors[k] = Color(0xFFaffc41);
           });
 
-          if(isResetClicked) break;
-
-          numbersWorking[j+1] = numbersWorking[j];
-
-          if(isResetClicked) break;
-
+          if(isResetClicked) return;
+          if(LeftArray[i] <= RightArray[j]){
+            numbers[k] = LeftArray[i];
+            i++;
+          }
+          else{
+            numbers[k] = RightArray[j];
+            j++;
+          }
+          k++;
+          await Future.delayed(Duration(milliseconds: animationSpeed));
+          setState(() {
+            barColors[k-1] = Colors.white;
+          });
 
           if(isPause){
             completer = Completer<void>();
             await completer!.future;
           }
-          j--;
         }
-        if(isResetClicked) break;
 
-        numbersWorking[j+1] = key;
+        while(i<array1){
 
-        await Future.delayed(Duration(milliseconds: animationSpeed));
+          setState(() {
+            barColors[k] = Color(0xFFaffc41);
+          });
+
+          if(isResetClicked) return;
+          numbers[k] = LeftArray[i];
+          i++;
+          k++;
+          await Future.delayed(Duration(milliseconds: animationSpeed));
+          setState(() {
+            barColors[k-1] = Colors.white;
+          });
+
+        }
+
+        while(j<array2){
+
+          setState(() {
+            barColors[k] = Color(0xFFaffc41);
+          });
+
+
+          if(isResetClicked) return;
+
+          numbers[k] = RightArray[j];
+          k++;
+          j++;
+          await Future.delayed(Duration(milliseconds: animationSpeed));
+          setState(() {
+            barColors[k-1] = Colors.white;
+
+          });
+        }
+
+        // await Future.delayed(Duration(milliseconds: animationSpeed));
+        setState(() { });
+      }
+
+
+
+      Future<void> mergeSort(List<int> numbers,List<Color>barColors,int left, int right) async{
+
+        if(left<right){
+          int mid = (left + right)~/2;
+          await mergeSort(numbers, barColors,left, mid);
+          await mergeSort(numbers,barColors, mid+1, right);
+          await merge(numbers,barColors, left, mid, right);
+        }
 
         setState(() {
-          // barColorsWorking[i] = Colors.white;
-          barColorsWorking[j+1]=Colors.white;
+
         });
 
-
-        setState(() {
-          barColorsWorking[j+1] = Colors.white;
-        });
 
       }
 
+
+    //============= Sorting Logic =============================
+
+
+
+    Future<void> startMergeSorting() async {
+
       setState(() {
-        barColorsWorking[barColorsWorking.length-2] = Colors.white;
+        isSorted = false;
+        isResetClicked = false;
       });
 
-      pauseTimer();
 
+      await mergeSort(numbersWorking,barColorsWorking, 0,numbersWorking.length-1);
+      // print(numbersWorking);
     }
-
-    Future<void> startInsertionSorting() async {
-      if(!isPause)
-        insertionSort();
-    }
-
-    //--------------------------------------------------------------------------
 
     void _showBottomSheet() {
 
@@ -270,7 +303,17 @@ class _InsertionSortState extends State<InsertionSortScreen> {
       );
     }
 
-    //--------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+    //============= ////////////////////// =============================
+
+
 
 
     return Scaffold(
@@ -282,7 +325,7 @@ class _InsertionSortState extends State<InsertionSortScreen> {
               SizedBox(height: screenHeight * 0.05,),
 
               Center(
-                  child: MText(input: "Insertion Sort",fontSize: 0.057,color: Colors.white)),
+                  child: MText(input: "Merge Sort",fontSize: 0.067,color: Colors.white)),
 
               SizedBox(height: screenHeight * 0.02,),
 
@@ -295,27 +338,18 @@ class _InsertionSortState extends State<InsertionSortScreen> {
                       alignment: Alignment.bottomCenter,
                       child: BarVisualization(numbers: numbersWorking,barColors: barColorsWorking))),
 
-              SizedBox(height: screenHeight*0.05,),
+              SizedBox(height: screenHeight*0.06,),
 
               Row(
 
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-
                   Container(width:screenWidth*0.35 ,height: screenHeight*0.07,child: ElevatedButton(onPressed: (){
-                    setState(() {
-                      isResetClicked = false;
-                    });
-                    if(!isPause) {
-                      startTimer();
-                    }
-                    startInsertionSorting();
+                    startMergeSorting();
                   }
-                      ,style: ElevatedButton.styleFrom(backgroundColor: Color(0xff495057)), child: MText(input: "Sort", fontSize: 0.04, color: Colors.white))),
+                      ,style: ElevatedButton.styleFrom(backgroundColor: Color(0xff353535)), child: MText(input: "Sort", fontSize: 0.04, color: Colors.white))),
 
-
-
-                  MyDropDownMenu(dropDownValue: dropDownValue,MenuClr: Color(0xff495057),function: dropDownCallback),
+                  MyDropDownMenu(dropDownValue: dropDownValue,MenuClr: Color(0xff353535),function: dropDownCallback),
 
                 ],
               ),
@@ -329,11 +363,12 @@ class _InsertionSortState extends State<InsertionSortScreen> {
                         style: ElevatedButton.styleFrom(
                             fixedSize: Size(screenWidth * 0.4, screenHeight * 0.075),
                             foregroundColor: Colors.white,
-                            backgroundColor: Color(0xff495057)),
+                            backgroundColor: Color(0xff353535)),
                         onPressed: (){
                           repeatAnimations();
                           setState(() {});
-                          },
+                        },
+
                         label: MText(input: "Reset", fontSize: 0.03, color: Colors.white),icon: Icon(Icons.arrow_back,size: 30)),
                     ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
@@ -341,9 +376,7 @@ class _InsertionSortState extends State<InsertionSortScreen> {
                           foregroundColor: Colors.white,
                           backgroundColor:isPause ? Color(0xffe5383b) : Color(0xffe5383b),),
                         onPressed: (){
-                          pause();
-                          pauseTimer();
-                          },
+                          pause();},
                         label: isPause?MText(input: "Play", fontSize: 0.03, color: Colors.white):MText(input: "Pause", fontSize: 0.03, color: Colors.white),
                         icon: isPause? Icon(Icons.play_arrow,size: 30): Icon(Icons.pause,size: 30,))]),
 
@@ -351,17 +384,20 @@ class _InsertionSortState extends State<InsertionSortScreen> {
 
 
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
                     child: MText(input: "Time Complexity : ", fontSize: 0.025, color: Colors.white),
+
+
                   ),
 
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
                     child: IconButton(onPressed: _showBottomSheet, icon: Icon(Icons.info),color: Colors.white,iconSize: 30,),
                   ),
+
                 ],
               ),
 
@@ -370,12 +406,14 @@ class _InsertionSortState extends State<InsertionSortScreen> {
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
-                    child: MText(input: "O(N^2)", fontSize: 0.025, color: Colors.white),
+                    child: MText(input: "O(n*log(n))", fontSize: 0.025, color: Colors.white),
                   ),
                 ],
               ),
 
               SizedBox(height: screenHeight * 0.05),
+
+
 
             ],
           ),
@@ -384,3 +422,4 @@ class _InsertionSortState extends State<InsertionSortScreen> {
     );
   }
 }
+
