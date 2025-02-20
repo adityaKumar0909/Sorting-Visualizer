@@ -3,8 +3,6 @@ import 'dart:core';
 import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:visualizer/core/sorting_algorithm.dart';
 import 'package:visualizer/widgets/dropDownMenu.dart';
 import 'package:visualizer/widgets/text.dart';
 import '../core/bar_visualization.dart';
@@ -78,6 +76,9 @@ class _MergeSortState extends State<MergeSortScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
     Color firstColor = Color(0xFFaffc41);
     Color secondColor = Color(0xFFaffc41);
+    Color secondaryColor = Theme.of(context).colorScheme.secondary;
+    Color primaryColor = Theme.of(context).colorScheme.primary;
+    Color surfaceColor = Theme.of(context).colorScheme.surface;
 
     // =============  //////////////  =======================
 
@@ -90,7 +91,7 @@ class _MergeSortState extends State<MergeSortScreen> {
         isPause = false;
         for (int i = 0; i < numbersWorking.length; i++) {
           numbersWorking[i] = numbers[i];
-          barColorsWorking[i] = Colors.white;
+          barColorsWorking[i] =  Color(0xff403d39);
         }
 
       });
@@ -151,7 +152,6 @@ class _MergeSortState extends State<MergeSortScreen> {
             barColors[k] = Color(0xFFaffc41);
           });
 
-          if(isResetClicked) return;
           if(LeftArray[i] <= RightArray[j]){
             numbers[k] = LeftArray[i];
             i++;
@@ -163,8 +163,9 @@ class _MergeSortState extends State<MergeSortScreen> {
           k++;
           await Future.delayed(Duration(milliseconds: animationSpeed));
           setState(() {
-            barColors[k-1] = Colors.white;
+            barColors[k-1] =  Color(0xff403d39);
           });
+          if(isResetClicked) return;
 
           if(isPause){
             completer = Completer<void>();
@@ -184,8 +185,11 @@ class _MergeSortState extends State<MergeSortScreen> {
           k++;
           await Future.delayed(Duration(milliseconds: animationSpeed));
           setState(() {
-            barColors[k-1] = Colors.white;
+            barColors[k-1] =  Color(0xff403d39);
           });
+
+          if(isResetClicked) return;
+
 
         }
 
@@ -203,9 +207,12 @@ class _MergeSortState extends State<MergeSortScreen> {
           j++;
           await Future.delayed(Duration(milliseconds: animationSpeed));
           setState(() {
-            barColors[k-1] = Colors.white;
+            barColors[k-1] =  Color(0xff403d39);
 
           });
+
+          if(isResetClicked) return;
+
         }
 
         // await Future.delayed(Duration(milliseconds: animationSpeed));
@@ -317,7 +324,7 @@ class _MergeSortState extends State<MergeSortScreen> {
 
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: surfaceColor,
       body: SingleChildScrollView(
         child: Container(
           child: Column(
@@ -325,13 +332,13 @@ class _MergeSortState extends State<MergeSortScreen> {
               SizedBox(height: screenHeight * 0.05,),
 
               Center(
-                  child: MText(input: "Merge Sort",fontSize: 0.067,color: Colors.white)),
+                  child: MText(input: "Merge Sort",fontSize: 0.067,color: secondaryColor)),
 
               SizedBox(height: screenHeight * 0.02,),
 
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Center(child: Divider(thickness: 1.5,color: Colors.white))),
+                  child: Center(child: Divider(thickness: 2.5,color: secondaryColor))),
 
               SizedBox(width: screenWidth,height: screenHeight * 0.43,
                   child: Align(
@@ -388,14 +395,14 @@ class _MergeSortState extends State<MergeSortScreen> {
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
-                    child: MText(input: "Time Complexity : ", fontSize: 0.025, color: Colors.white),
+                    child: MText(input: "Time Complexity : ", fontSize: 0.025, color: secondaryColor),
 
 
                   ),
 
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
-                    child: IconButton(onPressed: _showBottomSheet, icon: Icon(Icons.info),color: Colors.white,iconSize: 30,),
+                    child: IconButton(onPressed: _showBottomSheet, icon: Icon(Icons.info),color: secondaryColor,iconSize: 30,),
                   ),
 
                 ],
@@ -406,7 +413,7 @@ class _MergeSortState extends State<MergeSortScreen> {
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
-                    child: MText(input: "O(n*log(n))", fontSize: 0.025, color: Colors.white),
+                    child: MText(input: "O(n*log(n))", fontSize: 0.025, color: secondaryColor),
                   ),
                 ],
               ),

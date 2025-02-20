@@ -53,16 +53,12 @@ class _InsertionSortState extends State<InsertionSortScreen> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
-    void hello() {}
-
-
+    Color secondaryColor = Theme.of(context).colorScheme.secondary;
+    Color primaryColor = Theme.of(context).colorScheme.primary;
+    Color surfaceColor = Theme.of(context).colorScheme.surface;
 
     Color firstColor = Color(0xFFaffc41);
     Color secondColor = Color(0xFFaffc41);
-
-
-
 
 
     void dropDownCallback(String selectedValue) {
@@ -126,7 +122,7 @@ class _InsertionSortState extends State<InsertionSortScreen> {
         isPause = false;
         for (int i = 0; i < numbersWorking.length; i++) {
           numbersWorking[i] = numbers[i];
-          barColorsWorking[i] = Colors.white;
+          barColorsWorking[i] = Color(0xff403d39);
         }
       });
     }
@@ -163,9 +159,9 @@ class _InsertionSortState extends State<InsertionSortScreen> {
           if(isResetClicked) break;
 
           setState(() {
-            barColorsWorking[j+1] = Colors.white;
+            barColorsWorking[j+1] = Color(0xff403d39);
             barColorsWorking[j]=firstColor;
-            if(j-1>=0) barColorsWorking[j-1] = Colors.white;
+            if(j-1>=0) barColorsWorking[j-1] = Color(0xff403d39);
           });
 
           if(isResetClicked) break;
@@ -189,18 +185,18 @@ class _InsertionSortState extends State<InsertionSortScreen> {
 
         setState(() {
           // barColorsWorking[i] = Colors.white;
-          barColorsWorking[j+1]=Colors.white;
+          barColorsWorking[j+1]=Color(0xff403d39);
         });
 
 
         setState(() {
-          barColorsWorking[j+1] = Colors.white;
+          barColorsWorking[j+1] = Color(0xff403d39);
         });
 
       }
 
       setState(() {
-        barColorsWorking[barColorsWorking.length-2] = Colors.white;
+        barColorsWorking[barColorsWorking.length-2] = Color(0xff403d39);
       });
 
       pauseTimer();
@@ -274,7 +270,7 @@ class _InsertionSortState extends State<InsertionSortScreen> {
 
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: surfaceColor,
       body: SingleChildScrollView(
         child: Container(
           child: Column(
@@ -282,13 +278,13 @@ class _InsertionSortState extends State<InsertionSortScreen> {
               SizedBox(height: screenHeight * 0.05,),
 
               Center(
-                  child: MText(input: "Insertion Sort",fontSize: 0.057,color: Colors.white)),
+                  child: MText(input: "Insertion Sort",fontSize: 0.057,color: secondaryColor)),
 
               SizedBox(height: screenHeight * 0.02,),
 
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Center(child: Divider(thickness: 1.5,color: Colors.white))),
+                  child: Center(child: Divider(thickness: 2.5,color: secondaryColor))),
 
               SizedBox(width: screenWidth,height: screenHeight * 0.43,
                   child: Align(
@@ -311,11 +307,11 @@ class _InsertionSortState extends State<InsertionSortScreen> {
                     }
                     startInsertionSorting();
                   }
-                      ,style: ElevatedButton.styleFrom(backgroundColor: Color(0xff495057)), child: MText(input: "Sort", fontSize: 0.04, color: Colors.white))),
+                      ,style: ElevatedButton.styleFrom(backgroundColor: Color(0xff353535)), child: MText(input: "Sort", fontSize: 0.04, color: Colors.white))),
 
 
 
-                  MyDropDownMenu(dropDownValue: dropDownValue,MenuClr: Color(0xff495057),function: dropDownCallback),
+                  MyDropDownMenu(dropDownValue: dropDownValue,MenuClr: Color(0xff353535),function: dropDownCallback),
 
                 ],
               ),
@@ -329,7 +325,7 @@ class _InsertionSortState extends State<InsertionSortScreen> {
                         style: ElevatedButton.styleFrom(
                             fixedSize: Size(screenWidth * 0.4, screenHeight * 0.075),
                             foregroundColor: Colors.white,
-                            backgroundColor: Color(0xff495057)),
+                            backgroundColor: Color(0xff353535)),
                         onPressed: (){
                           repeatAnimations();
                           setState(() {});
@@ -355,12 +351,12 @@ class _InsertionSortState extends State<InsertionSortScreen> {
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
-                    child: MText(input: "Time Complexity : ", fontSize: 0.025, color: Colors.white),
+                    child: MText(input: "Time Complexity : ", fontSize: 0.025, color: secondaryColor),
                   ),
 
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
-                    child: IconButton(onPressed: _showBottomSheet, icon: Icon(Icons.info),color: Colors.white,iconSize: 30,),
+                    child: IconButton(onPressed: _showBottomSheet, icon: Icon(Icons.info),color: secondaryColor,iconSize: 30,),
                   ),
                 ],
               ),
@@ -370,7 +366,7 @@ class _InsertionSortState extends State<InsertionSortScreen> {
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
-                    child: MText(input: "O(N^2)", fontSize: 0.025, color: Colors.white),
+                    child: MText(input: "O(N^2)", fontSize: 0.025, color: secondaryColor),
                   ),
                 ],
               ),

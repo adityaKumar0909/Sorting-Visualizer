@@ -11,6 +11,9 @@ class MyDropDownMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    Color secondaryColor = Theme.of(context).colorScheme.secondary;
+    Color primaryColor = Theme.of(context).colorScheme.primary;
+    Color surfaceColor = Theme.of(context).colorScheme.surface;
 
     return Container(
       width: screenWidth*0.45,

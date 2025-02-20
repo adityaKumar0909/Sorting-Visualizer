@@ -3,7 +3,6 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:visualizer/core/sorting_algorithm.dart';
 import 'package:visualizer/screens/home_screen.dart';
 import 'package:visualizer/widgets/PageView-Horizontal.dart';
 import 'package:visualizer/widgets/buttons.dart';
@@ -66,6 +65,9 @@ class _SelectionSortState extends State<SelectionSortScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
     Color firstColor = Color(0xFFaffc41);
     Color secondColor = Color(0xFFaffc41);
+    Color secondaryColor = Theme.of(context).colorScheme.secondary;
+    Color primaryColor = Theme.of(context).colorScheme.primary;
+    Color surfaceColor = Theme.of(context).colorScheme.surface;
 
     // ==================/////////////==================================
 
@@ -78,7 +80,7 @@ class _SelectionSortState extends State<SelectionSortScreen> {
         isPause = false;
         for (int i = 0; i < numbersWorking.length; i++) {
           numbersWorking[i] = numbers[i];
-          barColorsWorking[i] = Colors.white;
+          barColorsWorking[i] = Color(0xff403d39);
         }
       });
     }
@@ -161,8 +163,8 @@ class _SelectionSortState extends State<SelectionSortScreen> {
 
           if(isResetClicked) {
             updateState(() {
-              barColors[j] = Colors.white;
-              barColors[j] = Colors.white;
+              barColors[j] = Color(0xff403d39);
+              barColors[j] = Color(0xff403d39);
             });
             break;
           }
@@ -187,14 +189,14 @@ class _SelectionSortState extends State<SelectionSortScreen> {
             await Future.delayed(Duration(milliseconds: animationSpeed));
           }
           updateState(() {
-            barColors[j] = Colors.white;
-            barColors[j] = Colors.white;
+            barColors[j] = Color(0xff403d39);
+            barColors[j] = Color(0xff403d39);
           });
           // Delay between each step for visualization
           await Future.delayed(Duration(milliseconds: animationSpeed));
         }
         updateState(() {
-          barColors[i] = Colors.white;
+          barColors[i] = Color(0xff403d39);
         });
       }
 
@@ -281,7 +283,7 @@ class _SelectionSortState extends State<SelectionSortScreen> {
 
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: surfaceColor,
       body: SingleChildScrollView(
         child: Container(
           child: Column(
@@ -289,13 +291,13 @@ class _SelectionSortState extends State<SelectionSortScreen> {
               SizedBox(height: screenHeight * 0.05,),
 
               Center(
-                  child: MText(input: "Selection Sort",fontSize: 0.055,color: Colors.white)),
+                  child: MText(input: "Selection Sort",fontSize: 0.055,color: secondaryColor)),
 
               SizedBox(height: screenHeight * 0.02,),
 
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Center(child: Divider(thickness: 1.5,color: Colors.white))),
+                  child: Center(child: Divider(thickness: 2.5,color:secondaryColor))),
 
               SizedBox(width: screenWidth,height: screenHeight * 0.43,
                   child: Align(
@@ -315,10 +317,10 @@ class _SelectionSortState extends State<SelectionSortScreen> {
                     starTimer();
                     startSelectionSorting();
                   }
-                      ,style: ElevatedButton.styleFrom(backgroundColor: Color(0xff495057)), child: MText(input: "Sort", fontSize: 0.04, color: Colors.white))),
+                      ,style: ElevatedButton.styleFrom(backgroundColor: Color(0xff353535)), child: MText(input: "Sort", fontSize: 0.04, color: Colors.white))),
 
 
-                  MyDropDownMenu(dropDownValue: dropDownValue,MenuClr: Color(0xff495057),function: dropDownCallback),
+                  MyDropDownMenu(dropDownValue: dropDownValue,MenuClr: Color(0xff353535),function: dropDownCallback),
 
                 ],
               ),
@@ -331,7 +333,7 @@ class _SelectionSortState extends State<SelectionSortScreen> {
                         style: ElevatedButton.styleFrom(
                             fixedSize: Size(screenWidth * 0.4, screenHeight * 0.075),
                             foregroundColor: Colors.white,
-                            backgroundColor: Color(0xff495057)),
+                            backgroundColor: Color(0xff353535)),
                         onPressed:(){
                           resetTimer();
                           repeatAnimations();
@@ -361,12 +363,12 @@ class _SelectionSortState extends State<SelectionSortScreen> {
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
-                    child: MText(input: "Time Complexity : ", fontSize: 0.025, color: Colors.white),
+                    child: MText(input: "Time Complexity : ", fontSize: 0.025, color: secondaryColor),
                   ),
 
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
-                    child: IconButton(onPressed: _showBottomSheet, icon: Icon(Icons.info),color: Colors.white,iconSize: 30,),
+                    child: IconButton(onPressed: _showBottomSheet, icon: Icon(Icons.info),color: secondaryColor,iconSize: 30,),
                   ),
                 ],
               ),
@@ -376,7 +378,7 @@ class _SelectionSortState extends State<SelectionSortScreen> {
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
-                    child: MText(input: "O(N^2)", fontSize: 0.025, color: Colors.white),
+                    child: MText(input: "O(N^2)", fontSize: 0.025, color: secondaryColor),
                   ),
                 ],
               ),
