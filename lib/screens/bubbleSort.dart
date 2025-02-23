@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:visualizer/widgets/dropDownMenu.dart';
 import 'package:visualizer/widgets/text.dart';
 import '../core/bar_visualization.dart';
@@ -26,7 +25,7 @@ class _BubbleSortState extends State<BubbleSortScreen> {
   late int animationSpeed = 400;
   String dropDownValue = "Normal";
   int time=0;
-  Timer? timer = null ;
+  Timer? timer ;
   bool isResetClicked = false;
   bool isTimerPaused = true;
   bool isSorted=false;
@@ -67,8 +66,8 @@ class _BubbleSortState extends State<BubbleSortScreen> {
     // ================ Variables ==========================
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    Color firstColor = Color(0xFFaffc41);
-    Color secondColor = Color(0xFFaffc41);
+    Color firstColor = const Color(0xFFaffc41);
+    Color secondColor = const Color(0xFFaffc41);
     Color secondaryColor = Theme.of(context).colorScheme.secondary;
     Color primaryColor = Theme.of(context).colorScheme.primary;
     Color surfaceColor = Theme.of(context).colorScheme.surface;
@@ -84,11 +83,11 @@ class _BubbleSortState extends State<BubbleSortScreen> {
         isPause = false;
         for (int i = 0; i < numbersWorking.length; i++) {
           numbersWorking[i] = numbers[i];
-          barColorsWorking[i] = Color(0xff403d39);
+          barColorsWorking[i] = const Color(0xff403d39);
         }
 
       });
-    };
+    }
 
     void dropDownCallback(String selectedValue) {
       setState(() {
@@ -118,7 +117,7 @@ class _BubbleSortState extends State<BubbleSortScreen> {
 
     void startTimer(){
       if(!isPause) {
-        timer = Timer.periodic(Duration(milliseconds: 1), (val) {
+        timer = Timer.periodic(const Duration(milliseconds: 1), (val) {
           setState(() {
             time++;
             isTimerPaused = false;
@@ -128,13 +127,15 @@ class _BubbleSortState extends State<BubbleSortScreen> {
     }
 
     void resumeTimer(){
-      if(isTimerPaused && timer!=null)
+      if(isTimerPaused && timer!=null) {
         startTimer();
+      }
     }
 
     void resetTimer(){
-      if(timer!=null)
+      if(timer!=null) {
         timer!.cancel();
+      }
 
       setState(() {
         time = 0;
@@ -173,7 +174,7 @@ class _BubbleSortState extends State<BubbleSortScreen> {
           while (isPause) {
             // await Future.delayed(Duration(milliseconds: 100));
             completer = Completer<void>();
-            await completer!.future;
+            await completer.future;
           }
 
           if(isResetClicked) break;
@@ -197,8 +198,8 @@ class _BubbleSortState extends State<BubbleSortScreen> {
           //After comparing and swapping ends , Make the bars color back to
           //black
           updateState(() {
-            barColors[j] = Color(0xff403d39);
-            barColors[j + 1] = Color(0xff403d39);
+            barColors[j] = const Color(0xff403d39);
+            barColors[j + 1] = const Color(0xff403d39);
           });
 
           // Delay between each step for visualization
@@ -227,7 +228,7 @@ class _BubbleSortState extends State<BubbleSortScreen> {
 
     //============= ////////////////////// =============================
 
-    void _showBottomSheet() {
+    void showBottomSheet() {
 
       showModalBottomSheet(
         context: context,
@@ -235,7 +236,7 @@ class _BubbleSortState extends State<BubbleSortScreen> {
         backgroundColor: Colors.transparent,
         transitionAnimationController: AnimationController(
           vsync: Navigator.of(context),
-          duration: Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 200),
         ),
         builder: (context) {
           return DraggableScrollableSheet(
@@ -244,7 +245,7 @@ class _BubbleSortState extends State<BubbleSortScreen> {
             maxChildSize: 0.6,
             builder: (context, scrollController) {
               return Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0xff353535),
                   borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
                 ),
@@ -257,7 +258,7 @@ class _BubbleSortState extends State<BubbleSortScreen> {
                       Align(
                         alignment: Alignment.center,
                         child: IconButton(
-                          icon: Icon(Icons.keyboard_arrow_down, color: Colors.white,size: 50,),
+                          icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white,size: 50,),
                           onPressed: () => Navigator.pop(context), // Close on tap
                         ),
                       ),
@@ -316,10 +317,11 @@ class _BubbleSortState extends State<BubbleSortScreen> {
 
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(width:screenWidth*0.35 ,height: screenHeight*0.07,child: ElevatedButton(onPressed: (){
+                  SizedBox(width:screenWidth*0.35 ,height: screenHeight*0.07,child: ElevatedButton(onPressed: (){
                      setState(() {
-                       if(isTimerPaused )
+                       if(isTimerPaused ) {
                          startTimer();
+                       }
                        isResetClicked = false;
                      });
                     startBubbleSorting();
@@ -347,17 +349,17 @@ class _BubbleSortState extends State<BubbleSortScreen> {
                       setState(() {});
                       },
 
-                    label: MText(input: "Reset", fontSize: 0.03, color: Colors.white),icon: Icon(Icons.arrow_back,size: 30)),
+                    label: MText(input: "Reset", fontSize: 0.03, color: Colors.white),icon: const Icon(Icons.arrow_back,size: 30, color: Colors.white)),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       fixedSize: Size(screenWidth * 0.4, screenHeight * 0.075),
                       foregroundColor: Colors.white,
-                      backgroundColor:isPause ? Color(0xffe5383b) : Color(0xffe5383b),),
+                      backgroundColor:isPause ? const Color(0xffe5383b) : const Color(0xffe5383b),),
                     onPressed: (){
                       pauseTimer();
                       pause();},
                     label: isPause?MText(input: "Play", fontSize: 0.03, color: Colors.white):MText(input: "Pause", fontSize: 0.03, color: Colors.white),
-                    icon: isPause? Icon(Icons.play_arrow,size: 30): Icon(Icons.pause,size: 30,))]),
+                    icon: isPause? const Icon(Icons.play_arrow,size: 30,color: Colors.white,): const Icon(Icons.pause,size: 30,color: Colors.white,))]),
 
 
               SizedBox(height: screenHeight * 0.03),
@@ -372,7 +374,7 @@ class _BubbleSortState extends State<BubbleSortScreen> {
 
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
-                    child: IconButton(onPressed: _showBottomSheet, icon: Icon(Icons.info),color: secondaryColor,iconSize: 30,),
+                    child: IconButton(onPressed: showBottomSheet, icon: const Icon(Icons.info),color: secondaryColor,iconSize: 30,),
                   ),
                 ],
               ),

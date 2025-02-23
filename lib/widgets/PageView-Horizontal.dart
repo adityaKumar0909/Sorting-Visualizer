@@ -14,11 +14,11 @@ class PageViewHorizontal extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
+      child: SizedBox(
         height: screenHeight*0.35,
         child: PageView.builder(
             pageSnapping: true,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemCount: Item.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
@@ -35,7 +35,7 @@ class PageViewHorizontal extends StatelessWidget {
                     ),
                     child: Center(
                       child: SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

@@ -1,6 +1,5 @@
 
 import 'dart:core';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:visualizer/core/array_generator.dart';
@@ -55,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
     mergeArray = numbers;
     countArray = numbers;
     quickArray = numbers;
-    barColors = List.generate(numbers.length, (index) => Color(0xff403d39));
+    barColors = List.generate(numbers.length, (index) => const Color(0xff403d39));
     barColorsBubble = barColors;
     barColorsInsertion = barColors;
     barColorsSelection = barColors;
@@ -75,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
       mergeArray = numbers;
       countArray = numbers;
       quickArray = numbers;
-      barColors = List.generate(numbers.length, (index) => Color(0xff403d39));
+      barColors = List.generate(numbers.length, (index) => const Color(0xff403d39));
       barColorsBubble = barColors;
       barColorsInsertion = barColors;
       barColorsSelection = barColors;
@@ -96,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
       mergeArray = numbers;
       countArray = numbers;
       quickArray = numbers;
-      barColors = List.generate(numbers.length, (index) => Color(0xff403d39));
+      barColors = List.generate(numbers.length, (index) => const Color(0xff403d39));
       barColorsBubble = barColors;
       barColorsInsertion = barColors;
       barColorsSelection = barColors;
@@ -107,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> startBubbleSort() async {
-    Get.to(()=>BubbleSortScreen(),transition:Transition.circularReveal,duration: Duration(milliseconds: 1000) ,arguments: {
+    Get.to(()=>const BubbleSortScreen(),transition:Transition.circularReveal,duration: const Duration(milliseconds: 1000) ,arguments: {
       "numbers" : bubbleArray,
       "barColors": barColorsBubble,
     });
@@ -115,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> startSelectionSort() async {
 
-    Get.to(()=>SelectionSortScreen(),transition:Transition.circularReveal,duration: Duration(milliseconds: 300) ,arguments: {
+    Get.to(()=>const SelectionSortScreen(),transition:Transition.circularReveal,duration: const Duration(milliseconds: 300) ,arguments: {
       "numbers" : bubbleArray,
       "barColors": barColorsBubble,
     });
@@ -123,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> startInsertionSort() async {
 
-    Get.to(()=>InsertionSortScreen(),transition:Transition.circularReveal,duration: Duration(milliseconds: 1000) ,arguments: {
+    Get.to(()=>const InsertionSortScreen(),transition:Transition.circularReveal,duration: const Duration(milliseconds: 1000) ,arguments: {
       "numbers" : bubbleArray,
       "barColors": barColorsBubble,
     });
@@ -131,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> startMergeSort() async {
 
-    Get.to(MergeSortScreen(),transition:Transition.circularReveal,duration: Duration(milliseconds: 1000) ,arguments: {
+    Get.to(const MergeSortScreen(),transition:Transition.circularReveal,duration: const Duration(milliseconds: 1000) ,arguments: {
       "numbers" : bubbleArray,
       "barColors": barColorsBubble,
     });
@@ -139,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> startQuickSort() async {
 
-    Get.to(QuickSortScreen(),transition:Transition.circularReveal,duration: Duration(milliseconds: 1000) ,arguments: {
+    Get.to(const QuickSortScreen(),transition:Transition.circularReveal,duration: const Duration(milliseconds: 1000) ,arguments: {
       "numbers" : bubbleArray,
       "barColors": barColorsBubble,
     });
@@ -157,74 +156,19 @@ class _HomeScreenState extends State<HomeScreen> {
     // Font variables
     double appBarFontSize = screenHeight * 0.03;
 
-    void _showBottomSheet() {
-
-      showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        transitionAnimationController: AnimationController(
-          vsync: Navigator.of(context),
-          duration: Duration(milliseconds: 200),
-        ),
-        builder: (context) {
-          return DraggableScrollableSheet(
-            initialChildSize: 0.6,
-            minChildSize: 0.2,
-            maxChildSize: 0.6,
-            builder: (context, scrollController) {
-              return Container(
-                decoration: BoxDecoration(
-                  color: Color(0xff353535),
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-
-                      Align(
-                        alignment: Alignment.center,
-                        child: IconButton(
-                          icon: Icon(Icons.keyboard_arrow_down, color: Colors.white,size: 50,),
-                          onPressed: () => Navigator.pop(context), // Close on tap
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Center(child: MText(input: "Settings", fontSize: 0.05, color: Colors.white)),
-
-                            SizedBox(height: screenHeight * 0.03),
-
-
-
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
-        },
-      );
-    }
 
 
     return Scaffold(
       backgroundColor: surfaceColor,
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Container(
           child: Column(
             children: [
               SizedBox(
                 height: screenHeight * 0.055,
               ),
-              Container(
+              SizedBox(
                 height: screenHeight*0.2,
                 width: screenWidth*0.95,
                 child: Align(
@@ -232,17 +176,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-
-
-
                       Flexible(
                         child: MText(
                             input: "Sorting Visualizer",
-                            fontSize: 0.065,
+                            fontSize: 0.075,
                             color: secondaryColor),
                       ),
 
-                      IconButton(onPressed: (){_showBottomSheet();}, icon: Icon(Icons.settings,size: 35,color: secondaryColor,),),
+
 
 
                     ],
@@ -283,9 +224,9 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  MElevatedButton("New Array", Colors.white, Color(0xFF7209B7),
+                  MElevatedButton("New Array", Colors.white, const Color(0xFF7209B7),
                       generateArray, 0.027),
-                  MElevatedButton("Shuffle", Colors.white, Color(0xFFfb6f92),
+                  MElevatedButton("Shuffle", Colors.white, const Color(0xFFfb6f92),
                       shuffle, 0.03),
                 ],
               ),

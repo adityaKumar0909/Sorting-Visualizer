@@ -1,14 +1,11 @@
 import 'dart:async';
 import 'dart:core';
-import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:visualizer/widgets/dropDownMenu.dart';
 import 'package:visualizer/widgets/text.dart';
 import '../core/bar_visualization.dart';
 import '../widgets/PageView-Horizontal.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 
 class QuickSortScreen extends StatefulWidget {
@@ -29,7 +26,7 @@ class _QuickSortState extends State<QuickSortScreen> {
   late int animationSpeed = 400;
   String dropDownValue = "Normal";
   int time=0;
-  Timer? timer = null ;
+  Timer? timer ;
   bool isResetClicked = false;
   bool isTimerPaused = true;
   bool isSorted=false;
@@ -69,8 +66,8 @@ class _QuickSortState extends State<QuickSortScreen> {
     // ================ Variables ==========================
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    Color firstColor = Color(0xFFaffc41);
-    Color secondColor = Color(0xFFaffc41);
+    Color firstColor = const Color(0xFFaffc41);
+    Color secondColor = const Color(0xFFaffc41);
     Color secondaryColor = Theme.of(context).colorScheme.secondary;
     Color primaryColor = Theme.of(context).colorScheme.primary;
     Color surfaceColor = Theme.of(context).colorScheme.surface;
@@ -87,11 +84,11 @@ class _QuickSortState extends State<QuickSortScreen> {
         isPause = false;
         for (int i = 0; i < numbersWorking.length; i++) {
           numbersWorking[i] = numbers[i];
-          barColorsWorking[i] = Color(0xff403d39);
+          barColorsWorking[i] = const Color(0xff403d39);
         }
 
       });
-    };
+    }
 
     void dropDownCallback(String selectedValue) {
       setState(() {
@@ -138,7 +135,7 @@ class _QuickSortState extends State<QuickSortScreen> {
         });
         if(isPause){
           completer=Completer<void>();
-          await completer!.future;
+          await completer.future;
         }
         if(numbers[j]<pivot){
           
@@ -151,8 +148,8 @@ class _QuickSortState extends State<QuickSortScreen> {
 
         }
         setState(() {
-          barColors[j] = Color(0xff403d39);
-          barColors[high] = Color(0xff403d39);
+          barColors[j] = const Color(0xff403d39);
+          barColors[high] = const Color(0xff403d39);
         });
 
         if(isResetClicked) return -1;
@@ -169,8 +166,8 @@ class _QuickSortState extends State<QuickSortScreen> {
       numbers[high] = temp;
 
       setState(() {
-        barColors[index+1] = Color(0xff403d39);
-        barColors[high] = Color(0xff403d39);
+        barColors[index+1] = const Color(0xff403d39);
+        barColors[high] = const Color(0xff403d39);
       });
 
       if(isResetClicked) return -1;
@@ -202,7 +199,7 @@ class _QuickSortState extends State<QuickSortScreen> {
 
     //--------------////////////////----------------------------
 
-    void _showBottomSheet() {
+    void showBottomSheet() {
 
       showModalBottomSheet(
         context: context,
@@ -210,7 +207,7 @@ class _QuickSortState extends State<QuickSortScreen> {
         backgroundColor: Colors.transparent,
         transitionAnimationController: AnimationController(
           vsync: Navigator.of(context),
-          duration: Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 200),
         ),
         builder: (context) {
           return DraggableScrollableSheet(
@@ -219,7 +216,7 @@ class _QuickSortState extends State<QuickSortScreen> {
             maxChildSize: 0.6,
             builder: (context, scrollController) {
               return Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0xff353535),
                   borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
                 ),
@@ -232,7 +229,7 @@ class _QuickSortState extends State<QuickSortScreen> {
                       Align(
                         alignment: Alignment.center,
                         child: IconButton(
-                          icon: Icon(Icons.keyboard_arrow_down, color: Colors.white,size: 50,),
+                          icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white,size: 50,),
                           onPressed: () => Navigator.pop(context), // Close on tap
                         ),
                       ),
@@ -288,12 +285,12 @@ class _QuickSortState extends State<QuickSortScreen> {
 
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(width:screenWidth*0.35 ,height: screenHeight*0.07,child: ElevatedButton(onPressed: (){
+                  SizedBox(width:screenWidth*0.35 ,height: screenHeight*0.07,child: ElevatedButton(onPressed: (){
                     startQuickSorting();
                   }
-                      ,style: ElevatedButton.styleFrom(backgroundColor: Color(0xff353535)), child: MText(input: "Sort", fontSize: 0.04, color: Colors.white))),
+                      ,style: ElevatedButton.styleFrom(backgroundColor: const Color(0xff353535)), child: MText(input: "Sort", fontSize: 0.04, color: Colors.white))),
 
-                  MyDropDownMenu(dropDownValue: dropDownValue,MenuClr: Color(0xff353535),function: dropDownCallback),
+                  MyDropDownMenu(dropDownValue: dropDownValue,MenuClr: const Color(0xff353535),function: dropDownCallback),
 
                 ],
               ),
@@ -307,22 +304,22 @@ class _QuickSortState extends State<QuickSortScreen> {
                         style: ElevatedButton.styleFrom(
                             fixedSize: Size(screenWidth * 0.4, screenHeight * 0.075),
                             foregroundColor: Colors.white,
-                            backgroundColor: Color(0xff353535)),
+                            backgroundColor: const Color(0xff353535)),
                         onPressed: (){
                           repeatAnimations();
                           setState(() {});
                         },
 
-                        label: MText(input: "Reset", fontSize: 0.03, color: Colors.white),icon: Icon(Icons.arrow_back,size: 30)),
+                        label: MText(input: "Reset", fontSize: 0.03, color: Colors.white),icon: const Icon(Icons.arrow_back,size: 30 ,color: Colors.white)),
                     ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
                           fixedSize: Size(screenWidth * 0.4, screenHeight * 0.075),
                           foregroundColor: Colors.white,
-                          backgroundColor:isPause ? Color(0xffe5383b) : Color(0xffe5383b),),
+                          backgroundColor:isPause ? const Color(0xffe5383b) : const Color(0xffe5383b),),
                         onPressed: (){
                           pause();},
                         label: isPause?MText(input: "Play", fontSize: 0.03, color: Colors.white):MText(input: "Pause", fontSize: 0.03, color: Colors.white),
-                        icon: isPause? Icon(Icons.play_arrow,size: 30): Icon(Icons.pause,size: 30,))]),
+                        icon: isPause? const Icon(Icons.play_arrow,size: 30,color: Colors.white): const Icon(Icons.pause,size: 30,color: Colors.white))]),
 
               SizedBox(height: screenHeight * 0.03),
 
@@ -339,7 +336,7 @@ class _QuickSortState extends State<QuickSortScreen> {
 
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
-                    child: IconButton(onPressed: _showBottomSheet, icon: Icon(Icons.info),color: secondaryColor,iconSize: 30,),
+                    child: IconButton(onPressed: showBottomSheet, icon: const Icon(Icons.info),color: secondaryColor,iconSize: 30,),
                   ),
 
                 ],

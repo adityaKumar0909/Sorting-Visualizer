@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:visualizer/widgets/PageView-Horizontal.dart';
 import 'package:visualizer/widgets/dropDownMenu.dart';
 import 'package:visualizer/widgets/text.dart';
@@ -57,8 +56,8 @@ class _InsertionSortState extends State<InsertionSortScreen> {
     Color primaryColor = Theme.of(context).colorScheme.primary;
     Color surfaceColor = Theme.of(context).colorScheme.surface;
 
-    Color firstColor = Color(0xFFaffc41);
-    Color secondColor = Color(0xFFaffc41);
+    Color firstColor = const Color(0xFFaffc41);
+    Color secondColor = const Color(0xFFaffc41);
 
 
     void dropDownCallback(String selectedValue) {
@@ -72,7 +71,7 @@ class _InsertionSortState extends State<InsertionSortScreen> {
     }
 
     void startTimer(){
-      timer = Timer.periodic(Duration(milliseconds: 1), (val){
+      timer = Timer.periodic(const Duration(milliseconds: 1), (val){
         setState(() {
           time++;
           isTimerPaused = false;
@@ -93,7 +92,7 @@ class _InsertionSortState extends State<InsertionSortScreen> {
     }
 
     void resumeTimer(){
-      if(isTimerPaused && time!=null){
+      if(isTimerPaused){
         startTimer();
       }
 
@@ -103,7 +102,6 @@ class _InsertionSortState extends State<InsertionSortScreen> {
     }
 
     void resetTimer(){
-      if(time!=null)
       timer!.cancel();
 
       setState(() {
@@ -122,7 +120,7 @@ class _InsertionSortState extends State<InsertionSortScreen> {
         isPause = false;
         for (int i = 0; i < numbersWorking.length; i++) {
           numbersWorking[i] = numbers[i];
-          barColorsWorking[i] = Color(0xff403d39);
+          barColorsWorking[i] = const Color(0xff403d39);
         }
       });
     }
@@ -159,9 +157,9 @@ class _InsertionSortState extends State<InsertionSortScreen> {
           if(isResetClicked) break;
 
           setState(() {
-            barColorsWorking[j+1] = Color(0xff403d39);
+            barColorsWorking[j+1] = const Color(0xff403d39);
             barColorsWorking[j]=firstColor;
-            if(j-1>=0) barColorsWorking[j-1] = Color(0xff403d39);
+            if(j-1>=0) barColorsWorking[j-1] = const Color(0xff403d39);
           });
 
           if(isResetClicked) break;
@@ -173,7 +171,7 @@ class _InsertionSortState extends State<InsertionSortScreen> {
 
           if(isPause){
             completer = Completer<void>();
-            await completer!.future;
+            await completer.future;
           }
           j--;
         }
@@ -185,18 +183,18 @@ class _InsertionSortState extends State<InsertionSortScreen> {
 
         setState(() {
           // barColorsWorking[i] = Colors.white;
-          barColorsWorking[j+1]=Color(0xff403d39);
+          barColorsWorking[j+1]=const Color(0xff403d39);
         });
 
 
         setState(() {
-          barColorsWorking[j+1] = Color(0xff403d39);
+          barColorsWorking[j+1] = const Color(0xff403d39);
         });
 
       }
 
       setState(() {
-        barColorsWorking[barColorsWorking.length-2] = Color(0xff403d39);
+        barColorsWorking[barColorsWorking.length-2] = const Color(0xff403d39);
       });
 
       pauseTimer();
@@ -204,13 +202,14 @@ class _InsertionSortState extends State<InsertionSortScreen> {
     }
 
     Future<void> startInsertionSorting() async {
-      if(!isPause)
+      if(!isPause) {
         insertionSort();
+      }
     }
 
     //--------------------------------------------------------------------------
 
-    void _showBottomSheet() {
+    void showBottomSheet() {
 
       showModalBottomSheet(
         context: context,
@@ -218,7 +217,7 @@ class _InsertionSortState extends State<InsertionSortScreen> {
         backgroundColor: Colors.transparent,
         transitionAnimationController: AnimationController(
           vsync: Navigator.of(context),
-          duration: Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 200),
         ),
         builder: (context) {
           return DraggableScrollableSheet(
@@ -227,7 +226,7 @@ class _InsertionSortState extends State<InsertionSortScreen> {
             maxChildSize: 0.6,
             builder: (context, scrollController) {
               return Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0xff353535),
                   borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
                 ),
@@ -240,7 +239,7 @@ class _InsertionSortState extends State<InsertionSortScreen> {
                       Align(
                         alignment: Alignment.center,
                         child: IconButton(
-                          icon: Icon(Icons.keyboard_arrow_down, color: Colors.white,size: 50,),
+                          icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white,size: 50,),
                           onPressed: () => Navigator.pop(context), // Close on tap
                         ),
                       ),
@@ -298,7 +297,7 @@ class _InsertionSortState extends State<InsertionSortScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
 
-                  Container(width:screenWidth*0.35 ,height: screenHeight*0.07,child: ElevatedButton(onPressed: (){
+                  SizedBox(width:screenWidth*0.35 ,height: screenHeight*0.07,child: ElevatedButton(onPressed: (){
                     setState(() {
                       isResetClicked = false;
                     });
@@ -307,11 +306,11 @@ class _InsertionSortState extends State<InsertionSortScreen> {
                     }
                     startInsertionSorting();
                   }
-                      ,style: ElevatedButton.styleFrom(backgroundColor: Color(0xff353535)), child: MText(input: "Sort", fontSize: 0.04, color: Colors.white))),
+                      ,style: ElevatedButton.styleFrom(backgroundColor: const Color(0xff353535)), child: MText(input: "Sort", fontSize: 0.04, color: Colors.white))),
 
 
 
-                  MyDropDownMenu(dropDownValue: dropDownValue,MenuClr: Color(0xff353535),function: dropDownCallback),
+                  MyDropDownMenu(dropDownValue: dropDownValue,MenuClr: const Color(0xff353535),function: dropDownCallback),
 
                 ],
               ),
@@ -325,23 +324,23 @@ class _InsertionSortState extends State<InsertionSortScreen> {
                         style: ElevatedButton.styleFrom(
                             fixedSize: Size(screenWidth * 0.4, screenHeight * 0.075),
                             foregroundColor: Colors.white,
-                            backgroundColor: Color(0xff353535)),
+                            backgroundColor: const Color(0xff353535)),
                         onPressed: (){
                           repeatAnimations();
                           setState(() {});
                           },
-                        label: MText(input: "Reset", fontSize: 0.03, color: Colors.white),icon: Icon(Icons.arrow_back,size: 30)),
+                        label: MText(input: "Reset", fontSize: 0.03, color: Colors.white),icon: const Icon(Icons.arrow_back,size: 30 ,color: Colors.white)),
                     ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
                           fixedSize: Size(screenWidth * 0.4, screenHeight * 0.075),
                           foregroundColor: Colors.white,
-                          backgroundColor:isPause ? Color(0xffe5383b) : Color(0xffe5383b),),
+                          backgroundColor:isPause ? const Color(0xffe5383b) : const Color(0xffe5383b),),
                         onPressed: (){
                           pause();
                           pauseTimer();
                           },
                         label: isPause?MText(input: "Play", fontSize: 0.03, color: Colors.white):MText(input: "Pause", fontSize: 0.03, color: Colors.white),
-                        icon: isPause? Icon(Icons.play_arrow,size: 30): Icon(Icons.pause,size: 30,))]),
+                        icon: isPause? const Icon(Icons.play_arrow,size: 30,color: Colors.white): const Icon(Icons.pause,size: 30,color: Colors.white))]),
 
               SizedBox(height: screenHeight * 0.03),
 
@@ -356,7 +355,7 @@ class _InsertionSortState extends State<InsertionSortScreen> {
 
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
-                    child: IconButton(onPressed: _showBottomSheet, icon: Icon(Icons.info),color: secondaryColor,iconSize: 30,),
+                    child: IconButton(onPressed: showBottomSheet, icon: const Icon(Icons.info),color: secondaryColor,iconSize: 30,),
                   ),
                 ],
               ),

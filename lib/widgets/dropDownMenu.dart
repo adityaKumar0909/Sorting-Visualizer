@@ -24,9 +24,9 @@ class MyDropDownMenu extends StatelessWidget {
       ),
       child: Center(
         child: DropdownButton(items: [
-          DropdownMenuItem( child:MText(input: "Normal", fontSize: 0.025, color: Colors.white),value: "Normal"),
-          DropdownMenuItem(child: MText(input: "Slow", fontSize: 0.025, color: Colors.white),value: "Slow",),
-          DropdownMenuItem(child: MText(input: "Fast", fontSize: 0.025, color: Colors.white),value: "Fast",),
+          DropdownMenuItem( value: "Normal", child:MText(input: "Normal", fontSize: 0.025, color: Colors.white)),
+          DropdownMenuItem(value: "Slow",child: MText(input: "Slow", fontSize: 0.025, color: Colors.white),),
+          DropdownMenuItem(value: "Fast",child: MText(input: "Fast", fontSize: 0.025, color: Colors.white),),
         ],
           hint: MText(input: "Speed", fontSize: 0.02, color: Colors.white),
           dropdownColor: Colors.black,
@@ -36,7 +36,7 @@ class MyDropDownMenu extends StatelessWidget {
           // icon: Icon(Icons.timelapse),
           iconEnabledColor: Colors.white,
           iconDisabledColor: Colors.grey,
-          underline: SizedBox(),
+          underline: const SizedBox(),
 
 
         ),

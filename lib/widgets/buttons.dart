@@ -22,7 +22,7 @@ class MyElevatedButton extends StatelessWidget {
 
     return ElevatedButton.icon(
       onPressed:onPressedFunction,
-      label: Text("$buttonText",
+      label: Text(buttonText,
         textAlign: TextAlign.center,
         style: TextStyle(
 
@@ -34,7 +34,7 @@ class MyElevatedButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         foregroundColor: foregroundClr,
         backgroundColor: backgroundClr,
-        padding: EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
       ),
     );
   }
@@ -59,7 +59,7 @@ class MyElevatedIconButton extends StatelessWidget {
   final Icon icon;
   final Function function;
 
-  MyElevatedIconButton({super.key,required this.icon,required this.onPressedFunction,required this.buttonText, required this.foregroundClr, required this.backgroundClr,required this.fontSize, required this.function});
+  const MyElevatedIconButton({super.key,required this.icon,required this.onPressedFunction,required this.buttonText, required this.foregroundClr, required this.backgroundClr,required this.fontSize, required this.function});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class MyElevatedIconButton extends StatelessWidget {
         backgroundColor: backgroundClr,
       ),
       label: MText(input: "Pause", fontSize: 0.02, color: Colors.white),
-      icon: Icon(Icons.pause),
+      icon: const Icon(Icons.pause),
       onPressed: (){
         function();
       },
