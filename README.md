@@ -16,8 +16,6 @@ Sorting Algorithm Visualizer is a **Flutter-based mobile application** that prov
 - **FontAwesomeFlutter** for icons
 - **Custom UI Widgets** for visualization
 
-## Screenshots / Overview📸
-![Sorting Visualizer Demo](assets/videos/AppScreenshots.mp4)
 
 ## Installation 📥
 1. Clone the repository:
