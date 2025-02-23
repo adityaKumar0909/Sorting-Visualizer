@@ -264,9 +264,9 @@ class _MergeSortState extends State<MergeSortScreen> {
         ),
         builder: (context) {
           return DraggableScrollableSheet(
-            initialChildSize: 0.6,
+            initialChildSize: 0.625,
             minChildSize: 0.2,
-            maxChildSize: 0.6,
+            maxChildSize: 0.625,
             builder: (context, scrollController) {
               return Container(
                 decoration: const BoxDecoration(
@@ -307,14 +307,6 @@ class _MergeSortState extends State<MergeSortScreen> {
         },
       );
     }
-
-
-
-
-
-
-
-
 
     //============= ////////////////////// =============================
 

@@ -26,27 +26,29 @@ class _BarVisualizationState extends State<BarVisualization> {
       mainAxisAlignment: MainAxisAlignment.center,
           children: [
             for(var i = 0;i<widget.numbers.length;i++)
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOut,
-                      height: widget.numbers[i]*screenHeight*0.007,
-                      width: screenWidth*0.06,
-                      decoration: BoxDecoration(
-                        color: widget.barColors[i],
-                        borderRadius: BorderRadius.circular(4),
+              Container(
+                child: Padding(
+                  padding:  EdgeInsets.all(5.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut,
+                        height: widget.numbers[i]*screenHeight*0.007,
+                        width: screenWidth*0.06,
+                        decoration: BoxDecoration(
+                          color: widget.barColors[i],
+                          borderRadius: BorderRadius.circular(4),
+                        ),
                       ),
-                    ),
 
-                    SizedBox(height: screenHeight*0.02,),
+                      SizedBox(height: screenHeight*0.02,),
 
-                    MText(input: "${widget.numbers[i]}", fontSize: 0.015, color: const Color(0xff403d39)),
+                      MText(input: "${widget.numbers[i]}", fontSize: 0.015, color: const Color(0xff403d39)),
 
-                  ],
+                    ],
+                  ),
                 ),
               )
       ],

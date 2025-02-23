@@ -162,83 +162,78 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: surfaceColor,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        child: Container(
-          child: Column(
-            children: [
-              SizedBox(
-                height: screenHeight * 0.055,
-              ),
-              SizedBox(
-                height: screenHeight*0.2,
-                width: screenWidth*0.95,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: MText(
-                            input: "Sorting Visualizer",
-                            fontSize: 0.075,
-                            color: secondaryColor),
-                      ),
-
-
-
-
-                    ],
+        child: Center(
+          child: Container(
+            width: screenWidth*0.95,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: screenHeight * 0.035,
+                ),
+                Padding(
+                  padding:  EdgeInsets.symmetric( horizontal:screenWidth*0.05,vertical: screenHeight*0.01),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: MText(
+                              input: "Sorting Visualizer",
+                              fontSize: 0.075,
+                              color: secondaryColor),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
 
-              SizedBox(
-                height: screenHeight * 0.025,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  MElevatedButton("Bubble", Colors.white, primaryColor,
-                      startBubbleSort, 0.025),
-                  MElevatedButton("Selection", Colors.white, primaryColor,
-                      startSelectionSort, 0.025),
-                  MElevatedButton("Insertion", Colors.white, primaryColor,
-                      startInsertionSort, 0.025),
-                ],
-              ),
-              SizedBox(
-                height: screenHeight * 0.02,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  MElevatedButton("Quick", Colors.white, primaryColor,
-                      startQuickSort, 0.026),
 
-                  MElevatedButton("Merge", Colors.white, primaryColor,
-                      startMergeSort, 0.026),
-                ],
-              ),
-              SizedBox(
-                height: screenHeight * 0.02,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  MElevatedButton("New Array", Colors.white, const Color(0xFF7209B7),
-                      generateArray, 0.027),
-                  MElevatedButton("Shuffle", Colors.white, const Color(0xFFfb6f92),
-                      shuffle, 0.03),
-                ],
-              ),
-              SizedBox(
-                width: screenWidth,
-                height: screenHeight * 0.42,
-                child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: BarVisualization(
-                        numbers: numbers, barColors: barColors)),
-              )
-            ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    MElevatedButton("Bubble", Colors.white, primaryColor,
+                        startBubbleSort, 0.025),
+                    MElevatedButton("Selection", Colors.white, primaryColor,
+                        startSelectionSort, 0.025),
+                    MElevatedButton("Insertion", Colors.white, primaryColor,
+                        startInsertionSort, 0.025),
+                  ],
+                ),
+                SizedBox(
+                  height: screenHeight * 0.02,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    MElevatedButton("Quick", Colors.white, primaryColor,
+                        startQuickSort, 0.026),
+
+                    MElevatedButton("Merge", Colors.white, primaryColor,
+                        startMergeSort, 0.026),
+                  ],
+                ),
+                SizedBox(
+                  height: screenHeight * 0.02,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    MElevatedButton("New Array", Colors.white, const Color(0xFF7209B7),
+                        generateArray, 0.027),
+                    MElevatedButton("Shuffle", Colors.white, const Color(0xFFfb6f92),
+                        shuffle, 0.03),
+                  ],
+                ),
+                SizedBox(
+                  height: screenHeight * 0.42,
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: BarVisualization(
+                          numbers: numbers, barColors: barColors)),
+                )
+              ],
+            ),
           ),
         ),
       ),

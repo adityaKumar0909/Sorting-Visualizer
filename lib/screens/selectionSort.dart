@@ -228,9 +228,9 @@ class _SelectionSortState extends State<SelectionSortScreen> {
         ),
         builder: (context) {
           return DraggableScrollableSheet(
-            initialChildSize: 0.6,
+            initialChildSize: 0.625,
             minChildSize: 0.2,
-            maxChildSize: 0.6,
+            maxChildSize: 0.625,
             builder: (context, scrollController) {
               return Container(
                 decoration: const BoxDecoration(
@@ -354,7 +354,7 @@ class _SelectionSortState extends State<SelectionSortScreen> {
               SizedBox(height: screenHeight * 0.03),
 
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal :screenWidth*0.08),
